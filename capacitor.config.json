@@ -1,0 +1,6 @@
+{
+  "appId": "com.mog.slidely",
+  "appName": "Slidely",
+  "webDir": "www",
+  "server": { "androidScheme": "https" }
+}
