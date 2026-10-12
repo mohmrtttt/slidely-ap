@@ -43,3 +43,72 @@ jobs:
         with:
           name: slidely-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Split APK into downloadable chunks
+        run: |
+          mkdir -p /tmp/slidely-apk-parts
+          split -b 500000 -d -a 2 android/app/build/outputs/apk/debug/app-debug.apk /tmp/slidely-apk-parts/part-
+
+      - name: Upload APK chunk 00
+        uses: actions/upload-artifact@v4
+        with:
+          name: slidely-apk-part-00
+          path: /tmp/slidely-apk-parts/part-00
+          if-no-files-found: ignore
+          compression-level: 0
+
+      - name: Upload APK chunk 01
+        uses: actions/upload-artifact@v4
+        with:
+          name: slidely-apk-part-01
+          path: /tmp/slidely-apk-parts/part-01
+          if-no-files-found: ignore
+          compression-level: 0
+
+      - name: Upload APK chunk 02
+        uses: actions/upload-artifact@v4
+        with:
+          name: slidely-apk-part-02
+          path: /tmp/slidely-apk-parts/part-02
+          if-no-files-found: ignore
+          compression-level: 0
+
+      - name: Upload APK chunk 03
+        uses: actions/upload-artifact@v4
+        with:
+          name: slidely-apk-part-03
+          path: /tmp/slidely-apk-parts/part-03
+          if-no-files-found: ignore
+          compression-level: 0
+
+      - name: Upload APK chunk 04
+        uses: actions/upload-artifact@v4
+        with:
+          name: slidely-apk-part-04
+          path: /tmp/slidely-apk-parts/part-04
+          if-no-files-found: ignore
+          compression-level: 0
+
+      - name: Upload APK chunk 05
+        uses: actions/upload-artifact@v4
+        with:
+          name: slidely-apk-part-05
+          path: /tmp/slidely-apk-parts/part-05
+          if-no-files-found: ignore
+          compression-level: 0
+
+      - name: Upload APK chunk 06
+        uses: actions/upload-artifact@v4
+        with:
+          name: slidely-apk-part-06
+          path: /tmp/slidely-apk-parts/part-06
+          if-no-files-found: ignore
+          compression-level: 0
+
+      - name: Upload APK chunk 07
+        uses: actions/upload-artifact@v4
+        with:
+          name: slidely-apk-part-07
+          path: /tmp/slidely-apk-parts/part-07
+          if-no-files-found: ignore
+          compression-level: 0
