@@ -10,9 +10,10 @@ Make slides on your phone, present them full screen, and export a real .pptx fil
 
 ## Using the app
 - Text: tap Text, type, press Done. Double-tap a text box to edit it again.
-- Drag to move. Drag the corner handle to resize. The color button, size, bold and align are in the bar above the slides.
+- Drag to move. Drag the corner handle to resize. Use the formatting bar to change font, size, color, bold, italic, underline, alignment, and layer order.
+- Undo and redo are in the top bar; Ctrl/Cmd+Z and Ctrl/Cmd+Y work with a keyboard.
 - Shape / Image: add rectangles, rounded boxes, circles, and photos from your gallery.
-- Theme: one tap restyles the whole deck. Slide menu: background color, copy, reorder, delete.
+- New slides include title-and-content, title, section-divider, two-column, and blank layouts. Theme restyles the whole deck; the slide menu also has background color, copy, reorder, and delete.
 - Present: tap right to go forward, left to go back, or swipe. Back button or X to exit.
 - Export: builds a .pptx and opens the Android share sheet (save to Drive/Files or open in PowerPoint).
 - Arabic and English are both supported. Use the ع / EN button to switch the interface language.
