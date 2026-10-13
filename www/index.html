@@ -113,6 +113,23 @@ header h1::before{content:"S";display:grid;place-items:center;width:30px;height:
 .layoutPreview.twoColumns{background:linear-gradient(90deg,#fff 0 48%,#efedf5 48% 52%,#fff 52%)}
 .layoutPreview.twoColumns::after{left:9%;top:43%;width:31%;height:7%;box-shadow:0 11px 0 #e7e5ef,0 22px 0 #e7e5ef}
 .layoutLabel{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:700}
+.templateGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.templateCard{min-width:0;padding:8px;border:1px solid var(--line);border-radius:15px;background:#fff;text-align:left}
+.templateCard:active{transform:scale(.985);background:var(--accsoft)}
+.templatePreview{position:relative;display:flex;flex-direction:column;justify-content:flex-end;aspect-ratio:16/9;overflow:hidden;
+  padding:10px;border-radius:10px;color:#fff;isolation:isolate}
+.templatePreview::before{content:"";position:absolute;z-index:-1;right:-18px;top:-28px;width:90px;height:90px;border-radius:50%;background:var(--preview-accent)}
+.templatePreview::after{content:"";position:absolute;z-index:-1;left:10px;top:10px;width:22px;height:3px;border-radius:5px;background:var(--preview-accent)}
+.templatePreview.pitch{--preview-accent:#8c73ff;background:#20203e}
+.templatePreview.portfolio{--preview-accent:#e98568;background:#fbf0e6;color:#382a25}
+.templatePreview.lesson{--preview-accent:#3185d8;background:#eaf4ff;color:#173658}
+.templatePreview.launch{--preview-accent:#55cfb3;background:#102d38}
+.templatePreview .miniTitle{max-width:78%;font-size:12px;line-height:1.05;font-weight:800;letter-spacing:-.025em}
+.templatePreview .miniSub{margin-top:4px;font-size:7px;line-height:1.15;opacity:.78}
+.templateInfo{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:8px}
+.templateName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:750}
+.templateSlides{flex:none;color:var(--mute);font-size:10px;font-weight:600}
+.templateHint{margin:-5px 0 14px;color:var(--mute);font-size:12px;line-height:1.4}
 .themes{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .themes button{height:84px;border-radius:15px;border:1.5px solid var(--line);display:flex;align-items:flex-end;padding:8px 10px;font-weight:700;font-size:14px}
 .themes button.on{outline:3px solid var(--acc);outline-offset:1px}
@@ -181,6 +198,7 @@ header h1::before{content:"S";display:grid;place-items:center;width:30px;height:
 <div id="strip"></div>
 
 <nav id="tools">
+  <button data-a="templates"><i data-ic="templates"></i><span data-t="templates"></span></button>
   <button data-a="addtext"><i data-ic="text"></i><span data-t="text"></span></button>
   <button data-a="shape"><i data-ic="shape"></i><span data-t="shape"></span></button>
   <button data-a="image"><i data-ic="image"></i><span data-t="image"></span></button>
@@ -213,6 +231,7 @@ const IC={
   export:'<path d="M12 3v12M7 8l5-5 5 5M5 14v6h14v-6"/>',
   undo:'<path d="M9 14L4 9l5-5M4 9h10a6 6 0 0 1 0 12h-2"/>',
   redo:'<path d="m15 14 5-5-5-5m5 5H10a6 6 0 0 0 0 12h2"/>',
+  templates:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 4v16M8 9h13M8 15h13"/>',
   text:'<path d="M5 6V4h14v2M12 4v16M9 20h6"/>',
   shape:'<circle cx="16" cy="8" r="5"/><rect x="3" y="12" width="9" height="9" rx="1"/>',
   image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',
@@ -229,6 +248,17 @@ const ic=n=>`<svg viewBox="0 0 24 24">${IC[n]}</svg>`;
 /* ---------- translations ---------- */
 const I18N={
   en:{present:'Present',export:'Export',undo:'Undo',redo:'Redo',font:'Font',italic:'Italic',underline:'Underline',back:'Back',
+    templates:'Templates',chooseTemplate:'Choose a design',templateHint:'Adds 3 editable slides to this presentation',
+    templateAdded:'Template slides added',templatePitch:'Bold pitch',templatePortfolio:'Creative portfolio',
+    templateLesson:'Class lesson',templateLaunch:'Product launch',templateSlideCount:'3 slides',
+    tplPitchTitle:'A story worth sharing',tplPitchSub:'Your idea starts here',tplIdea:'The opportunity',
+    tplProblem:'Problem • Insight • Solution',tplNext:'Make it happen',tplNextSub:'Plan • Team • Next steps',
+    tplPortfolioTitle:'Selected work',tplPortfolioSub:'A few projects I’m proud of',tplProjectOne:'Project one',
+    tplProjectTwo:'Project two',tplPortfolioClose:'Let’s make something great',
+    tplLessonTitle:'Learning, made clear',tplLessonSub:'A simple lesson template',tplLessonSteps:'One clear idea',
+    tplLessonSubTwo:'Explain it with examples',tplLessonClose:'Questions?',
+    tplLaunchTitle:'Meet what’s next',tplLaunchSub:'Product launch presentation',tplLaunchIdea:'Built for real work',
+    tplLaunchBenefits:'Key benefits • Audience • Plan',tplLaunchClose:'Available soon',
     newSlide:'New slide',chooseLayout:'Choose a slide layout',blank:'Blank',titleOnly:'Title slide',titleContent:'Title and content',
     section:'Section divider',twoColumns:'Two columns',addContent:'Double-tap to add content',
     text:'Text',shape:'Shape',image:'Image',theme:'Theme',slide:'Slide',
@@ -238,6 +268,17 @@ const I18N={
     full:'Storage is full. Remove large images.',only:"Can't delete the only slide.",custom:'Custom color',
     newText:'Text',title:'Title',tapEdit:'Double-tap to edit',myPres:'My presentation',exportErr:'Export failed. Try again.'},
   ar:{present:'عرض',export:'تصدير',undo:'تراجع',redo:'إعادة',font:'الخط',italic:'مائل',underline:'تحته خط',back:'للخلف',
+    templates:'قوالب',chooseTemplate:'اختر تصميمًا',templateHint:'يضيف 3 شرائح قابلة للتعديل إلى العرض',
+    templateAdded:'تمت إضافة الشرائح',templatePitch:'عرض جريء',templatePortfolio:'معرض أعمال',
+    templateLesson:'درس تعليمي',templateLaunch:'إطلاق منتج',templateSlideCount:'3 شرائح',
+    tplPitchTitle:'قصة تستحق المشاركة',tplPitchSub:'تبدأ فكرتك من هنا',tplIdea:'الفرصة',
+    tplProblem:'المشكلة • الرؤية • الحل',tplNext:'لنحقق ذلك',tplNextSub:'الخطة • الفريق • الخطوة التالية',
+    tplPortfolioTitle:'أعمال مختارة',tplPortfolioSub:'مشاريع أفتخر بها',tplProjectOne:'المشروع الأول',
+    tplProjectTwo:'المشروع الثاني',tplPortfolioClose:'لنبتكر شيئًا رائعًا',
+    tplLessonTitle:'تعلّم بوضوح',tplLessonSub:'قالب درس مبسط',tplLessonSteps:'فكرة واحدة واضحة',
+    tplLessonSubTwo:'اشرحها بالأمثلة',tplLessonClose:'أسئلة؟',
+    tplLaunchTitle:'تعرّف على الجديد',tplLaunchSub:'عرض إطلاق منتج',tplLaunchIdea:'صُمم للعمل الحقيقي',
+    tplLaunchBenefits:'المزايا • الجمهور • الخطة',tplLaunchClose:'قريبًا',
     newSlide:'شريحة جديدة',chooseLayout:'اختر تخطيط الشريحة',blank:'فارغة',titleOnly:'شريحة عنوان',titleContent:'عنوان ومحتوى',
     section:'فاصل قسم',twoColumns:'عمودان',addContent:'اضغط مرتين لإضافة محتوى',
     text:'نص',shape:'شكل',image:'صورة',theme:'تصميم',slide:'شريحة',
@@ -483,6 +524,18 @@ function openLayouts(){
     `<button class="layoutCard" data-a="layout" data-layout="${key}">
       <i class="layoutPreview ${preview}"></i><span class="layoutLabel">${t(key)}</span></button>`).join('')}</div>`);
 }
+function openTemplates(){
+  const cards=[
+    ['pitch','templatePitch','tplPitchTitle','tplPitchSub'],
+    ['portfolio','templatePortfolio','tplPortfolioTitle','tplPortfolioSub'],
+    ['lesson','templateLesson','tplLessonTitle','tplLessonSub'],
+    ['launch','templateLaunch','tplLaunchTitle','tplLaunchSub']
+  ];
+  sheet(`<div class="sheetTitle">${t('chooseTemplate')}</div><p class="templateHint">${t('templateHint')}</p><div class="templateGrid">${cards.map(([id,name,title,sub])=>
+    `<button class="templateCard" data-a="addtemplate" data-template="${id}">
+      <span class="templatePreview ${id}"><b class="miniTitle">${t(title)}</b><small class="miniSub">${t(sub)}</small></span>
+      <span class="templateInfo"><span class="templateName">${t(name)}</span><small class="templateSlides">${t('templateSlideCount')}</small></span></button>`).join('')}</div>`);
+}
 
 /* ---------- editing actions ---------- */
 function addEl(p){
@@ -538,6 +591,118 @@ function applyTheme(i){
 }
 function slideText(text,x,y,w,h,size,bold,align){
   return{id:uid(),type:'text',x,y,w,h,text,size,color:th().fg,bold,italic:false,underline:false,font:'Arial',align};
+}
+function templateShape(type,x,y,w,h,fill){
+  return{id:uid(),type,x,y,w,h,fill};
+}
+function tintColor(c,amount){
+  const n=parseInt(String(c).replace('#',''),16);
+  const r=(n>>16)&255,g=(n>>8)&255,b=n&255;
+  const mix=v=>Math.round(v+(255-v)*amount).toString(16).padStart(2,'0');
+  return '#'+mix(r)+mix(g)+mix(b);
+}
+function templateSlides(kind){
+  const {bg,fg,ac}=th(),soft=tintColor(ac,.84);
+  const text=(value,x,y,w,h,size,bold=true,align='left')=>slideText(value,x,y,w,h,size,bold,align);
+  if(kind==='pitch')return[
+    {bg,els:[
+      templateShape('ellipse',680,-165,430,430,soft),
+      templateShape('rect',80,130,12,250,ac),
+      text(t('tplPitchTitle'),120,160,640,155,66),
+      text(t('tplPitchSub'),124,330,630,75,25,false)
+    ]},
+    {bg,els:[
+      text(t('tplIdea'),80,52,800,85,48),
+      templateShape('round',80,180,245,250,soft),
+      templateShape('round',358,180,245,250,soft),
+      templateShape('round',635,180,245,250,soft),
+      text(t('tplProblem'),100,218,205,155,28,true,'center'),
+      text(t('tplNext'),378,218,205,155,28,true,'center'),
+      text(t('tplNextSub'),655,218,205,155,24,true,'center')
+    ]},
+    {bg,els:[
+      templateShape('ellipse',-105,350,260,260,soft),
+      text(t('tplNext'),120,155,720,110,62),
+      text(t('tplNextSub'),125,285,700,70,28,false)
+    ]}
+  ];
+  if(kind==='portfolio')return[
+    {bg,els:[
+      templateShape('round',650,70,235,390,soft),
+      templateShape('ellipse',690,110,155,155,ac),
+      templateShape('rect',685,295,165,12,ac),
+      text(t('tplPortfolioTitle'),80,165,600,100,60),
+      text(t('tplPortfolioSub'),84,275,550,80,25,false)
+    ]},
+    {bg,els:[
+      text(t('tplPortfolioTitle'),80,45,800,80,46),
+      templateShape('round',80,150,370,235,soft),
+      templateShape('round',510,150,370,235,soft),
+      templateShape('ellipse',220,192,90,90,ac),
+      templateShape('ellipse',650,192,90,90,ac),
+      text(t('tplProjectOne'),90,400,350,55,25),
+      text(t('tplProjectTwo'),520,400,350,55,25)
+    ]},
+    {bg,els:[
+      templateShape('rect',80,150,12,230,ac),
+      text(t('tplPortfolioClose'),125,175,710,120,52),
+      text(t('tplPortfolioSub'),130,305,650,70,25,false)
+    ]}
+  ];
+  if(kind==='lesson')return[
+    {bg,els:[
+      templateShape('ellipse',700,50,230,230,soft),
+      templateShape('round',660,320,230,120,ac),
+      text(t('tplLessonTitle'),80,155,650,110,60),
+      text(t('tplLessonSub'),85,280,600,70,26,false)
+    ]},
+    {bg,els:[
+      text(t('tplLessonSteps'),80,48,800,80,46),
+      templateShape('ellipse',80,175,88,88,ac),
+      templateShape('ellipse',80,285,88,88,ac),
+      templateShape('ellipse',80,395,88,88,ac),
+      text('1',80,190,88,55,34,true,'center'),
+      text('2',80,300,88,55,34,true,'center'),
+      text('3',80,410,88,55,34,true,'center'),
+      text(t('tplLessonSub'),200,190,650,60,28),
+      text(t('tplLessonSubTwo'),200,300,650,60,28),
+      text(t('tplNextSub'),200,410,650,60,28,false)
+    ]},
+    {bg,els:[
+      templateShape('ellipse',740,355,220,220,soft),
+      text(t('tplLessonClose'),80,175,740,120,72),
+      text(t('tplLessonSubTwo'),86,310,680,65,27,false)
+    ]}
+  ];
+  if(kind==='launch')return[
+    {bg,els:[
+      templateShape('ellipse',665,-95,380,380,soft),
+      templateShape('rect',80,390,205,12,ac),
+      text(t('tplLaunchTitle'),80,155,700,135,66),
+      text(t('tplLaunchSub'),84,300,620,65,26,false)
+    ]},
+    {bg,els:[
+      text(t('tplLaunchIdea'),80,50,800,85,48),
+      templateShape('round',80,190,240,225,soft),
+      templateShape('round',360,190,240,225,soft),
+      templateShape('round',640,190,240,225,soft),
+      text(t('tplLaunchBenefits'),100,230,200,145,24,true,'center'),
+      text(t('tplIdea'),380,230,200,145,27,true,'center'),
+      text(t('tplNext'),660,230,200,145,27,true,'center')
+    ]},
+    {bg,els:[
+      templateShape('ellipse',-100,340,260,260,soft),
+      text(t('tplLaunchClose'),125,160,710,105,64),
+      text(t('tplLaunchSub'),130,280,680,65,27,false)
+    ]}
+  ];
+  return[];
+}
+function addTemplate(kind){
+  const slides=templateSlides(kind);if(!slides.length)return;
+  checkpoint();
+  const first=S.slides.length;S.slides.splice(first,0,...slides);
+  S.cur=first;sel=null;renderAll();save();closeSheet();toast(t('templateAdded'));
 }
 function newSlide(layout='titleContent'){
   const els=[];
@@ -680,6 +845,7 @@ document.addEventListener('click',e=>{
     case 'export':exportPptx();break;
     case 'undo':undo();break;
     case 'redo':redo();break;
+    case 'templates':openTemplates();break;
     case 'addtext':addText();break;
     case 'shape':openShapes();break;
     case 'image':$('#file').click();break;
@@ -690,6 +856,7 @@ document.addEventListener('click',e=>{
     case 'addslide':openLayouts();break;
     case 'newslide':openLayouts();break;
     case 'layout':newSlide(b.dataset.layout);break;
+    case 'addtemplate':addTemplate(b.dataset.template);break;
     case 'addshape':addShape(b.dataset.s);break;
     case 'settheme':applyTheme(+b.dataset.i);break;
     case 'slidebg':openColor(c=>{cur().bg=c;commit()});break;
